@@ -1,6 +1,6 @@
 from cStringIO import StringIO
 from sorl.thumbnail.engines.base import EngineBase
-from sorl.thumbnail.utils import reflection
+from sorl.thumbnail.engines import reflection
 try:
     from PIL import Image, ImageDraw
 except ImportError:
