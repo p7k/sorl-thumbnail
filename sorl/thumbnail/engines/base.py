@@ -14,6 +14,8 @@ class EngineBase(object):
         image = self.colorspace(image, geometry, options)
         image = self.scale(image, geometry, options)
         image = self.crop(image, geometry, options)
+        if any('reflection' in k for k in options.iterkeys()):
+            image = self.reflection(image, geometry, options)
         return image
 
     def colorspace(self, image, geometry, options):
@@ -49,6 +51,15 @@ class EngineBase(object):
         x_image, y_image = self.get_image_size(image)
         x_offset, y_offset = parse_crop(crop, (x_image, y_image), geometry)
         return self._crop(image, geometry[0], geometry[1], x_offset, y_offset)
+
+    def reflection(self, image, geometry, options):
+        """
+        Wrapper for ``_reflection``
+        """
+        bgcolor=options.get('reflection_bgcolor', '#000000')
+        amount=options.get('reflection_amount', 0.4)
+        opacity=options.get('reflection_opacity', 0.6)
+        return self._reflection(image, bgcolor, amount, opacity)
 
     def write(self, image, options, thumbnail):
         """
@@ -140,3 +151,8 @@ class EngineBase(object):
         """
         raise NotImplemented()
 
+    def _reflection(self, bgcolor, amount, opacity):
+        """
+        Adds reflection to the image
+        """
+        raise NotImplemented()

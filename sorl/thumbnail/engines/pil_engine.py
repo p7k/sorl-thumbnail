@@ -1,6 +1,6 @@
 from cStringIO import StringIO
 from sorl.thumbnail.engines.base import EngineBase
-
+from sorl.thumbnail.utils import reflection
 try:
     from PIL import Image, ImageDraw
 except ImportError:
@@ -63,3 +63,5 @@ class Engine(EngineBase):
         buf.close()
         return raw_data
 
+    def _reflection(self, image, bgcolor, amount, opacity):
+        return reflection.add_reflection(image, bgcolor, amount, opacity)
